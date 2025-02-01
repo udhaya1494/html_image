@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
+    _isFullScreen = _checkFullScreen();
     // Registers a platform view for rendering the image in the web HTML context.
     ui.platformViewRegistry.registerViewFactory(
       'image-container',
@@ -66,9 +66,11 @@ class _HomePageState extends State<HomePage> {
 
     // Toggles screen mode on double-clicking the image.
     img.onDoubleClick.listen((_) {
-      _isFullScreen ? html.document.exitFullscreen() :
-      html.document.documentElement?.requestFullscreen();
-      _toggleFullScreenMode();
+      if(!_isMenuOpen){
+        _isFullScreen ? html.document.exitFullscreen() :
+        html.document.documentElement?.requestFullscreen();
+        _toggleFullScreenMode();
+      }
     });
 
     div.children.add(img);
@@ -101,6 +103,12 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _isFullScreen = !_isFullScreen;
     });
+  }
+
+
+  /// Returns `true` if in fullscreen mode, otherwise `false`.
+  bool _checkFullScreen() {
+    return html.document.fullscreenElement != null;
   }
 
 
