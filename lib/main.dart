@@ -138,7 +138,6 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(),
         body: Stack(
           children: [
-            if (_isMenuOpen) Container(color: Colors.black.withOpacity(.5)),
             Padding(
               padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
               child: Column(
@@ -181,6 +180,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+            if (_isMenuOpen) Container(color: Colors.black.withOpacity(.5)),
           ],
         ),
         floatingActionButton: Column(
