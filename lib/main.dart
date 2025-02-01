@@ -40,6 +40,9 @@ class _HomePageState extends State<HomePage> {
   /// Tracks whether the floating action menu is open.
   bool _isMenuOpen = false;
 
+  /// Tracks whether the app in fullscreen mode.
+  bool _isFullScreen = false;
+
   @override
   void initState() {
     super.initState();
@@ -61,9 +64,11 @@ class _HomePageState extends State<HomePage> {
       ..src = _imageUrl
       ..style.cursor = 'pointer';
 
-    // Enables fullscreen mode on double-clicking the image.
+    // Toggles screen mode on double-clicking the image.
     img.onDoubleClick.listen((_) {
+      _isFullScreen ? html.document.exitFullscreen() :
       html.document.documentElement?.requestFullscreen();
+      _toggleFullScreenMode();
     });
 
     div.children.add(img);
@@ -91,15 +96,25 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  /// Toggles the screen mode
+  void _toggleFullScreenMode() {
+    setState(() {
+      _isFullScreen = !_isFullScreen;
+    });
+  }
+
+
   /// Enters fullscreen mode for the web page.
   void _enterFullscreen() {
     html.document.documentElement?.requestFullscreen();
+    _isFullScreen = true;
     _toggleMenu();
   }
 
   /// Exits fullscreen mode for the web page.
   void _exitFullscreen() {
     html.document.exitFullscreen();
+    _isFullScreen = false;
     _toggleMenu();
   }
 
